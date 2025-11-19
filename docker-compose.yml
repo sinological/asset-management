@@ -1,0 +1,53 @@
+version: "3.8"
+services:
+  db:
+    image: postgres:15
+    container_name: asset_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: examplepassword
+      POSTGRES_DB: assetsdb
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: ./backend
+    container_name: asset_backend
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgres://postgres:examplepassword@db:5432/assetsdb
+      JWT_SECRET: replace_with_a_secure_random_string
+      ADMIN_USER: admin
+      # set ADMIN_PASS_HASH to a bcrypt hash for production (optional)
+      ADMIN_PASS_HASH: "$2a$10$GNB1UrOn5rJov45qVxZGKenijxU.tJSFQqlhum3p5ZjlMw1ytEv5e"
+      PORT: 3000
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./backend:/app
+
+  frontend:
+    build: ./frontend
+    container_name: asset_frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: cloudflared_tunnel
+    restart: unless-stopped
+    command: tunnel run --token ${CF_TUNNEL_TOKEN}
+    environment:
+      - CF_TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
+    volumes:
+      - ./infra/cloudflared:/home/nonroot/.cloudflared
+
+volumes:
+  db_data:
