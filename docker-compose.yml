@@ -43,9 +43,9 @@ services:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared_tunnel
     restart: unless-stopped
-    command: tunnel run --token ${CF_TUNNEL_TOKEN}
+    command: tunnel run --token ${eyJhIjoiN2ZmNjI3YzVhN2EzNGE4MmY1ZGZiYzg5ODQ2MzZmMjEiLCJ0IjoiNjc2MGIwNzMtY2ViMy00MDAwLTkwZDQtOWI3MjExNGQyMDRlIiwicyI6IlpEY3daakJpTURNdFltUm1PQzAwTkdKaExUZzFZalV0TmpZNVpXRTNZVFl6TjJWbSJ9}
     environment:
-      - CF_TUNNEL_TOKEN=${CF_TUNNEL_TOKEN}
+      - CF_TUNNEL_TOKEN=${eyJhIjoiN2ZmNjI3YzVhN2EzNGE4MmY1ZGZiYzg5ODQ2MzZmMjEiLCJ0IjoiNjc2MGIwNzMtY2ViMy00MDAwLTkwZDQtOWI3MjExNGQyMDRlIiwicyI6IlpEY3daakJpTURNdFltUm1PQzAwTkdKaExUZzFZalV0TmpZNVpXRTNZVFl6TjJWbSJ9}
     volumes:
       - ./infra/cloudflared:/home/nonroot/.cloudflared
 
