@@ -7,7 +7,13 @@ const assetsRoutes = require('./routes/assets');
 const adminRoutes = require('./routes/admin');
 
 const app = express();
-app.use(cors());
+
+// CORS 配置，允许前端域名请求
+app.use(cors({
+  origin: ['https://szmg.xyz'],
+  credentials: true
+}));
+
 app.use(express.json());
 
 app.use('/api/auth', authRoutes);
@@ -17,4 +23,7 @@ app.use('/api/admin', adminRoutes);
 app.get('/health', (req,res)=> res.json({ ok: true }));
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, ()=> console.log(`Backend listening on ${PORT}`));
+const HOST = process.env.HOST || '0.0.0.0';  // ✅ 关键修改
+
+app.listen(PORT, HOST, ()=> console.log(`Backend listening on ${HOST}:${PORT}`));
+
