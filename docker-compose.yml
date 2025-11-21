@@ -22,7 +22,7 @@ services:
       DATABASE_URL: postgres://postgres:examplepassword@db:5432/assetsdb
       JWT_SECRET: replace_with_a_secure_random_string
       ADMIN_USER: admin
-      ADMIN_PASS_HASH: "$2a$10$x8.1Jo5HKDdSnsQdPtrHjuI6Yt4yUyfA.H2b42H.u4d4eSFsArBxa"
+      ADMIN_PASS_HASH: '$$2a$$10$$x8.1Jo5HKDdSnsQdPtrHjuI6Yt4yUyfA.H2b42H.u4d4eSFsArBxa'
       PORT: 3000
       HOST: 0.0.0.0
     depends_on:
