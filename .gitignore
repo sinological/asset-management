@@ -1,50 +1,97 @@
-# Node.js dependencies
+# ============================================================
+#  Node.js
+# ============================================================
 node_modules/
-
-# Logs
-logs
-*.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# dotenv environment variables
-.env
-.env.local
-.env.*.local
-
-# Build output
+pnpm-debug.log*
 dist/
 build/
+.tmp/
 .cache/
 
-# Vue / Vite specific
-.vite/
-*.local
+# ============================================================
+#  Backend (Express)
+# ============================================================
+backend/node_modules/
+backend/dist/
+backend/build/
+backend/*.log
+backend/.env
+backend/.env.local
+backend/.DS_Store
 
-# Docker
-# (compose generated files)
-docker-data/
-postgres-data/
+#  不要上传真实配置 (示例文件可以保留)
+backend/.env
+backend/.env.*.local
 
-# Editor files
-.vscode/
-.idea/
-*.swp
+# ============================================================
+#  Frontend (Vite)
+# ============================================================
+frontend/node_modules/
+frontend/dist/
+frontend/*.log
+frontend/.env
+frontend/.env.local
+frontend/.DS_Store
 
-# System files
+# ============================================================
+#  Cloudflared  (必须忽略)
+# ============================================================
+infra/cloudflared/
+**/cloudflared*
+**/cert.pem
+**/*.pem
+**/*.json
+
+# ============================================================
+#  Docker
+# ============================================================
+db_data/
+*.pid
+*.seed
+docker-compose.override.yml
+
+# ============================================================
+#  System / Temp / OS files
+# ============================================================
 .DS_Store
 Thumbs.db
+*.swp
+*.swo
+*.bak
+*.tmp
+*.log
 
-# Temp
-tmp/
-temp/
+# ============================================================
+#  Editor folders
+# ============================================================
+.vscode/
+.idea/
+*.code-workspace
 
-# Lockfiles (if using only npm)
-yarn.lock
-pnpm-lock.yaml
+# ============================================================
+#  Large files / unnecessary files
+# ============================================================
+*.tar
+*.gz
+*.zip
+*.7z
+*.iso
+*.img
+*.exe
+*.dll
 
-# Cloudflare Tunnel (token)
-cloudflared/
-.config/
-node_modules
+# ============================================================
+#  Security: 禁止上传任何私钥/证书
+# ============================================================
+*.key
+*.pem
+*.crt
+
+# ============================================================
+#  Project generated files
+# ============================================================
+wget-log
+

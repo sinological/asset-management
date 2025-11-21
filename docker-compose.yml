@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   db:
     image: postgres:15
@@ -21,8 +22,7 @@ services:
       DATABASE_URL: postgres://postgres:examplepassword@db:5432/assetsdb
       JWT_SECRET: replace_with_a_secure_random_string
       ADMIN_USER: admin
-      # set ADMIN_PASS_HASH to a bcrypt hash for production (optional)
-      ADMIN_PASS_HASH: "$2a$10$GNB1UrOn5rJov45qVxZGKenijxU.tJSFQqlhum3p5ZjlMw1ytEv5e"
+      ADMIN_PASS_HASH: '$$2a$$10$$x8.1Jo5HKDdSnsQdPtrHjuI6Yt4yUyfA.H2b42H.u4d4eSFsArBxa'
       PORT: 3000
     depends_on:
       - db
@@ -38,16 +38,16 @@ services:
     ports:
       - "8080:80"
 
-
   cloudflared:
     image: cloudflare/cloudflared:latest
     container_name: cloudflared_tunnel
     restart: unless-stopped
-    command: tunnel run --token ${eyJhIjoiN2ZmNjI3YzVhN2EzNGE4MmY1ZGZiYzg5ODQ2MzZmMjEiLCJ0IjoiNjc2MGIwNzMtY2ViMy00MDAwLTkwZDQtOWI3MjExNGQyMDRlIiwicyI6IlpEY3daakJpTURNdFltUm1PQzAwTkdKaExUZzFZalV0TmpZNVpXRTNZVFl6TjJWbSJ9}
+    command: tunnel run --token ${CF_TUNNEL_TOKEN}
     environment:
-      - CF_TUNNEL_TOKEN=${eyJhIjoiN2ZmNjI3YzVhN2EzNGE4MmY1ZGZiYzg5ODQ2MzZmMjEiLCJ0IjoiNjc2MGIwNzMtY2ViMy00MDAwLTkwZDQtOWI3MjExNGQyMDRlIiwicyI6IlpEY3daakJpTURNdFltUm1PQzAwTkdKaExUZzFZalV0TmpZNVpXRTNZVFl6TjJWbSJ9}
+      CF_TUNNEL_TOKEN: ${CF_TUNNEL_TOKEN}
     volumes:
       - ./infra/cloudflared:/home/nonroot/.cloudflared
 
 volumes:
   db_data:
+
