@@ -10,7 +10,10 @@ const app = express();
 
 // CORS 配置，允许前端域名请求
 app.use(cors({
-  origin: ['https://szmg.xyz'],
+  origin: [
+  'https://szmg.xyz',
+  'https://api.szmg.xyz'
+  ],
   credentials: true
 }));
 
