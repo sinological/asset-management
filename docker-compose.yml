@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   db:
     image: postgres:15
@@ -9,6 +11,7 @@ services:
       POSTGRES_DB: assetsdb
     volumes:
       - db_data:/var/lib/postgresql/data
+      - ./infra/init.sql:/docker-entrypoint-initdb.d/init.sql:ro  # ← 添加这行
     ports:
       - "5432:5432"
 
@@ -18,27 +21,14 @@ services:
     restart: unless-stopped
     environment:
       DATABASE_URL: postgres://postgres:examplepassword@db:5432/assetsdb
-      JWT_SECRET: replace_with_a_secure_random_string
+      JWT_SECRET: replace_with_secure_random_string
       ADMIN_USER: admin
-      ADMIN_PASS_HASH: '$$2a$$10$$x8.1Jo5HKDdSnsQdPtrHjuI6Yt4yUyfA.H2b42H.u4d4eSFsArBxa'
-      PORT: 3000
-    depends_on:
-      - db
+      ADMIN_PASS_HASH: "$$2a$$10$$x8.1Jo5HKDdSnsQdPtrHjuI6Yt4yUyfA.H2b42H.u4d4eSFsArBxa"
     ports:
       - "3000:3000"
     volumes:
       - ./backend:/app
 
-  cloudflared:
-    image: cloudflare/cloudflared:latest
-    container_name: cloudflared_tunnel
-    restart: unless-stopped
-    command: tunnel run          # ← 不再写 tunnel ID
-    depends_on:
-      - backend
-    volumes:
-      - ./infra/cloudflared:/etc/cloudflared:ro   # ← 加 :ro 更安全
-    # networks: default 是默认的，可以省略
-
 volumes:
   db_data:
+
