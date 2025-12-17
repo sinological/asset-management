@@ -7,10 +7,11 @@ export async function login(username, password) {
   return r.data;
 }
 
-export async function getAsset(asset_no) {
-  const r = await axios.get(`${API_BASE}/api/assets/${encodeURIComponent(asset_no)}`);
+export async function searchAssets(params) {
+  const r = await axios.get(`${API_BASE}/api/assets`, { params });
   return r.data;
 }
+
 
 // multi condition search
 export async function searchAssets(params) {
