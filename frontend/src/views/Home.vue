@@ -5,14 +5,23 @@
     <input
       v-model="q"
       placeholder="输入自编号（支持模糊搜索）"
+      @keyup.enter="query"
     />
     <button @click="query">查询</button>
 
-    <div v-if="searched && list.length === 0">
-      未找到匹配数据
-    </div>
+    <!-- 加载状态 -->
+    <p v-if="loading">🔍 正在搜索...</p>
 
-    <table v-if="list.length > 0" border="1">
+    <!-- 无关键词提示 -->
+    <p v-else-if="!searched">请输入关键词进行搜索</p>
+
+    <!-- 未找到 -->
+    <p v-else-if="list.length === 0">
+      未找到匹配数据
+    </p>
+
+    <!-- 查询结果表格 -->
+    <table v-if="list.length > 0" border="1" style="margin-top: 10px;">
       <thead>
         <tr>
           <th>自编号</th>
@@ -27,7 +36,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in list" :key="item.id">
+        <tr v-for="item in list" :key="item.asset_no">
           <td>{{ item.asset_no }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.model }}</td>
@@ -51,16 +60,36 @@ export default {
     return {
       q: '',
       list: [],
-      searched: false
+      searched: false,
+      loading: false
     };
   },
   methods: {
     async query() {
+      if (!this.q.trim()) return;
+
+      this.loading = true;
       this.searched = true;
-      const r = await searchAssets({ q: this.q });
-      this.list = r.data;
+      this.list = []; // 清空旧数据
+
+      try {
+        const result = await searchAssets({ q: this.q });
+
+        // ✅ 安全处理两种可能的返回格式
+        if (Array.isArray(result)) {
+          this.list = result;
+        } else if (result && Array.isArray(result.data)) {
+          this.list = result.data;
+        } else {
+          this.list = [];
+        }
+      } catch (err) {
+        console.error('搜索失败:', err);
+        this.list = [];
+      } finally {
+        this.loading = false;
+      }
     }
   }
 };
 </script>
-
