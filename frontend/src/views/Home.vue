@@ -2,10 +2,17 @@
   <div>
     <h2>按自编号模糊查询</h2>
 
-    <input v-model="q" placeholder="输入自编号（支持模糊、不区分大小写）" />
+    <input
+      v-model="q"
+      placeholder="输入自编号（支持模糊搜索）"
+    />
     <button @click="query">查询</button>
 
-    <table v-if="list.length">
+    <div v-if="searched && list.length === 0">
+      未找到匹配数据
+    </div>
+
+    <table v-if="list.length > 0" border="1">
       <thead>
         <tr>
           <th>自编号</th>
@@ -20,7 +27,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in list" :key="item.asset_no">
+        <tr v-for="item in list" :key="item.id">
           <td>{{ item.asset_no }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.model }}</td>
@@ -33,8 +40,6 @@
         </tr>
       </tbody>
     </table>
-
-    <p v-if="searched && !list.length">未匹配到数据</p>
   </div>
 </template>
 
