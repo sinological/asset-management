@@ -1,78 +1,70 @@
 # ============================================================
-#  Node.js
+# Node.js
 # ============================================================
 node_modules/
 npm-debug.log*
 yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
+
 dist/
 build/
-.tmp/
 .cache/
+.tmp/
 
 # ============================================================
-#  Backend (Express)
+# Backend (Express)
 # ============================================================
 backend/node_modules/
 backend/dist/
 backend/build/
 backend/*.log
-backend/.env
-backend/.env.local
-backend/.DS_Store
 
-#  不要上传真实配置 (示例文件可以保留)
+# 环境变量（绝不上传）
 backend/.env
-backend/.env.*.local
+backend/.env.*
+!backend/.env.example
 
 # ============================================================
-#  Frontend (Vite)
+# Frontend (Vite / Vue)
 # ============================================================
 frontend/node_modules/
 frontend/dist/
 frontend/*.log
+
 frontend/.env
-frontend/.env.local
-frontend/.DS_Store
+frontend/.env.*
+!frontend/.env.example
 
 # ============================================================
-#  Cloudflared  (必须忽略)
+# Cloudflare / Tunnel / Secrets
 # ============================================================
 infra/cloudflared/
+infra/cloudflared/secrets/
+
 **/cloudflared*
-**/cert.pem
 **/*.pem
-**/*.json
+**/*.key
+**/*.crt
 
 # ============================================================
-#  Docker
+# Docker
 # ============================================================
 db_data/
-*.pid
-*.seed
 docker-compose.override.yml
+*.pid
 
 # ============================================================
-#  System / Temp / OS files
+# OS / Editor
 # ============================================================
 .DS_Store
 Thumbs.db
-*.swp
-*.swo
-*.bak
-*.tmp
-*.log
-
-# ============================================================
-#  Editor folders
-# ============================================================
 .vscode/
 .idea/
-*.code-workspace
+*.swp
+*.swo
 
 # ============================================================
-#  Large files / unnecessary files
+# Archives / Large files
 # ============================================================
 *.tar
 *.gz
@@ -83,16 +75,3 @@ Thumbs.db
 *.exe
 *.dll
 
-# ============================================================
-#  Security: 禁止上传任何私钥/证书
-# ============================================================
-*.key
-*.pem
-*.crt
-
-# ============================================================
-#  Project generated files
-# ============================================================
-wget-log
-
-infra/cloudflared/secrets/
