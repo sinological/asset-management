@@ -1,54 +1,51 @@
 <template>
-  <div>
+  <div class="home">
     <h2>按自编号模糊查询</h2>
 
-    <input
-      v-model="q"
-      placeholder="输入自编号（支持模糊搜索）"
-      @keyup.enter="query"
-    />
-    <button @click="query">查询</button>
+    <div class="search-bar">
+      <input
+        v-model="q"
+        placeholder="输入自编号（支持模糊搜索）"
+        @keyup.enter="query(1)"
+      />
+      <button @click="query(1)">查询</button>
+    </div>
 
-    <!-- 加载状态 -->
-    <p v-if="loading">🔍 正在搜索...</p>
+    <p v-if="loading">正在搜索...</p>
+    <p v-else-if="searched && list.length === 0">未找到匹配数据</p>
 
-    <!-- 无关键词提示 -->
-    <p v-else-if="!searched">请输入关键词进行搜索</p>
+    <!-- 表格 -->
+    <div class="table-wrapper" v-if="list.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>自编号</th>
+            <th>名称</th>
+            <th>型号</th>
+            <th>厂家</th>
+            <th>责任人</th>
+            <th>部门</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in list" :key="item.asset_no">
+            <td>{{ item.asset_no }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.model }}</td>
+            <td>{{ item.manufacturer }}</td>
+            <td>{{ item.owner }}</td>
+            <td>{{ item.department }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-    <!-- 未找到 -->
-    <p v-else-if="list.length === 0">
-      未找到匹配数据
-    </p>
-
-    <!-- 查询结果表格 -->
-    <table v-if="list.length > 0" border="1" style="margin-top: 10px;">
-      <thead>
-        <tr>
-          <th>自编号</th>
-          <th>名称</th>
-          <th>型号</th>
-          <th>厂家</th>
-          <th>序列号</th>
-          <th>责任人</th>
-          <th>部门</th>
-          <th>启用日期</th>
-          <th>价格</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="item in list" :key="item.asset_no">
-          <td>{{ item.asset_no }}</td>
-          <td>{{ item.name }}</td>
-          <td>{{ item.model }}</td>
-          <td>{{ item.manufacturer }}</td>
-          <td>{{ item.serial_number }}</td>
-          <td>{{ item.owner }}</td>
-          <td>{{ item.department }}</td>
-          <td>{{ item.start_date }}</td>
-          <td>{{ item.price }}</td>
-        </tr>
-      </tbody>
-    </table>
+    <!-- 分页 -->
+    <div class="pagination" v-if="list.length > 0">
+      <button :disabled="page === 1" @click="query(page - 1)">上一页</button>
+      <span>第 {{ page }} 页</span>
+      <button @click="query(page + 1)">下一页</button>
+    </div>
   </div>
 </template>
 
@@ -60,36 +57,80 @@ export default {
     return {
       q: '',
       list: [],
+      loading: false,
       searched: false,
-      loading: false
+      page: 1,
+      perPage: 20
     };
   },
   methods: {
-    async query() {
+    async query(p) {
       if (!this.q.trim()) return;
 
       this.loading = true;
       this.searched = true;
-      this.list = []; // 清空旧数据
+      this.page = p;
 
-      try {
-        const result = await searchAssets({ q: this.q });
+      const res = await searchAssets({
+        q: this.q,
+        page: this.page,
+        per_page: this.perPage
+      });
 
-        // ✅ 安全处理两种可能的返回格式
-        if (Array.isArray(result)) {
-          this.list = result;
-        } else if (result && Array.isArray(result.data)) {
-          this.list = result.data;
-        } else {
-          this.list = [];
-        }
-      } catch (err) {
-        console.error('搜索失败:', err);
-        this.list = [];
-      } finally {
-        this.loading = false;
-      }
+      this.list = res.data || [];
+      this.loading = false;
     }
   }
 };
 </script>
+
+<style>
+.home {
+  max-width: 100%;
+}
+
+/* 搜索栏 */
+.search-bar {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+
+.search-bar input {
+  flex: 1;
+  min-width: 200px;
+  padding: 6px;
+}
+
+/* 表格响应式 */
+.table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 6px;
+  font-size: 14px;
+}
+
+/* 分页 */
+.pagination {
+  margin-top: 12px;
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  align-items: center;
+}
+
+.pagination button {
+  padding: 6px 12px;
+}
+</style>
+
