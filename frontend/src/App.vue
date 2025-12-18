@@ -1,19 +1,17 @@
 <template>
-  <div>
-    <header class="app-header">
+  <div class="app">
+    <header class="header">
       <h1 class="title">
-        <span><i>S</i>zmg</span>
-        <span><i>T</i>echnical</span>
-        <span><i>E</i>nterprise</span>
-        <span><i>A</i>sset</span>
-        <span><i>M</i>anagement</span>
+        <span>Szmg</span>
+        <span>Technical</span>
+        <span>Enterprise</span>
+        <span>Asset</span>
+        <span>Management</span>
       </h1>
 
       <nav class="nav">
         <router-link to="/">Home</router-link>
-        <span class="sep">|</span>
         <router-link to="/search">Search</router-link>
-        <span class="sep">|</span>
         <router-link to="/admin/login">Admin</router-link>
       </nav>
     </header>
@@ -24,55 +22,65 @@
   </div>
 </template>
 
-<style scoped>
-/* 顶部整体样式 */
-.app-header {
-  padding: 12px;
-  background: #C71585; /* ✅ 新背景色 */
+<style>
+/* 整体 */
+.app {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 顶部栏 */
+.header {
+  background: #c71585;
   color: white;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* 标题样式 */
+/* 标题：响应式关键 */
 .title {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  font-size: clamp(18px, 4vw, 28px); /* 自动缩放 */
+  line-height: 1.2;
   margin: 0;
-  font-size: 28px;
-  font-weight: bold;
 }
 
-/* 单词间距 */
 .title span {
-  margin-right: 6px;
+  color: #ffffcd;
+  white-space: nowrap;
 }
 
-/* 每个单词首字母 */
-.title i {
-  color: #FFFFCD; /* ✅ 首字母颜色 */
-  font-style: normal;
-}
-
-/* 导航栏 */
+/* 导航 */
 .nav {
-  margin-top: 6px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
 
 .nav a {
   color: white;
   text-decoration: none;
-  font-weight: 500;
+  font-size: 14px;
 }
 
-.nav a:hover {
+.nav a.router-link-active {
+  font-weight: bold;
   text-decoration: underline;
 }
 
-.sep {
-  margin: 0 6px;
-  color: rgba(255, 255, 255, 0.6);
+/* 内容区 */
+.main {
+  padding: 16px;
 }
 
-/* 主内容区域 */
-.main {
-  padding: 20px;
+/* 手机特殊优化 */
+@media (max-width: 480px) {
+  .nav {
+    font-size: 13px;
+  }
 }
 </style>
 
