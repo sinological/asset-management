@@ -1,11 +1,11 @@
 <template>
   <div class="home">
-    <h2>按自编号模糊查询</h2>
+    <h2>按自编号查询</h2>
 
     <div class="search-bar">
       <input
         v-model="q"
-        placeholder="输入自编号（支持模糊搜索）"
+        placeholder="输入自编号(支持模糊搜索)"
         @keyup.enter="query(1)"
       />
       <button @click="query(1)">查询</button>
