@@ -1,5 +1,5 @@
 <template>
-  <div class="app">
+  <div class="app" data-build="2025-12-21-01">
     <header class="header">
       <h1 class="title">
         <span>Szmg</span>
@@ -43,7 +43,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
-  font-size: clamp(18px, 4vw, 28px); /* 自动缩放 */
+  font-size: clamp(18px, 4vw, 28px);
   line-height: 1.2;
   margin: 0;
 }
@@ -76,7 +76,7 @@
   padding: 16px;
 }
 
-/* 手机特殊优化 */
+/* 手机优化 */
 @media (max-width: 480px) {
   .nav {
     font-size: 13px;
