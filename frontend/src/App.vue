@@ -1,12 +1,15 @@
 <template>
-  <div class="app" data-build="2025-12-21-01">
+  <div
+    class="app"
+    :data-build="import.meta.env.VITE_BUILD_TIME || 'dev'"
+  >
     <header class="header">
       <h1 class="title">
-        <span>Szmg</span>
-        <span>Technical</span>
-        <span>Enterprise</span>
-        <span>Asset</span>
-        <span>Management</span>
+        <span class="word"><i>S</i>zmg</span>
+        <span class="word"><i>T</i>echnical</span>
+        <span class="word"><i>E</i>nterprise</span>
+        <span class="word"><i>A</i>sset</span>
+        <span class="word"><i>M</i>anagement</span>
       </h1>
 
       <nav class="nav">
@@ -38,19 +41,27 @@
   gap: 8px;
 }
 
-/* 标题：响应式关键 */
+/* 标题（响应式） */
 .title {
   display: flex;
   flex-wrap: wrap;
-  gap: 4px;
+  gap: 6px;
   font-size: clamp(18px, 4vw, 28px);
   line-height: 1.2;
   margin: 0;
 }
 
-.title span {
-  color: #ffffcd;
+/* 单词整体 */
+.word {
   white-space: nowrap;
+  color: #ffffcd;
+}
+
+/* 首字母高亮 */
+.word i {
+  color: #FAFAD2;
+  font-style: normal;
+  font-weight: inherit;
 }
 
 /* 导航 */
@@ -76,9 +87,14 @@
   padding: 16px;
 }
 
-/* 手机优化 */
+/* 超小屏进一步优化 */
 @media (max-width: 480px) {
-  .nav {
+  .title {
+    font-size: 18px;
+    gap: 4px;
+  }
+
+  .nav a {
     font-size: 13px;
   }
 }
