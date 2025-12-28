@@ -3,5 +3,9 @@ import vue from '@vitejs/plugin-vue';
 
 export default defineConfig({
   plugins: [vue()],
-  server: { host: true, port: 5173 }
+  define: {
+    'import.meta.env.VITE_BUILD_TIME': JSON.stringify(
+      new Date().toISOString()
+    )
+  }
 });
