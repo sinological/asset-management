@@ -1,7 +1,7 @@
 <template>
   <div
     class="app"
-    data-build="2026-01-03-01"
+    :data-build="import.meta.env.VITE_BUILD_TIME || 'dev'"
   >
     <header class="header">
       <h1 class="title">
