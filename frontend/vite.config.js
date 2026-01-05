@@ -38,3 +38,7 @@ export default defineConfig({
     outDir: 'dist'
   }
 })
+<<<<<<< Updated upstream
+=======
+
+>>>>>>> Stashed changes
