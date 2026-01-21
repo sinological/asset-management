@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "echo FRONTEND_BUILD_MARK_20260120_1541 && vite build",
+    "build": "echo FRONTEND_BUILD_MARK_$(date +%Y%m%d_%H%M%S) && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

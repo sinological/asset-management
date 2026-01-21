@@ -54,12 +54,12 @@
 /* 单词整体 */
 .word {
   white-space: nowrap;
-  color: #ffffcd;
+  color: #FAFAD2;
 }
 
 /* 首字母高亮 */
 .word i {
-  color: #FAFAD2;
+  color: #ffff00;
   font-style: normal;
   font-weight: inherit;
 }

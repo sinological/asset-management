@@ -10,10 +10,7 @@
       <button @click="search(1)">搜索</button>
     </div>
 
-    <!-- 无数据提示 -->
-    <div v-if="searched && list.length === 0">
-      未找到匹配数据
-    </div>
+    <p v-if="searched && list.length === 0">未找到匹配数据</p>
 
     <!-- 结果表格 -->
     <table v-if="list.length > 0" border="1" cellpadding="6">
@@ -31,7 +28,7 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="item in list" :key="item.id">
+        <tr v-for="item in list" :key="item.asset_no">
           <td>{{ item.asset_no }}</td>
           <td>{{ item.name }}</td>
           <td>{{ item.model }}</td>
@@ -47,21 +44,13 @@
 
     <!-- 分页 -->
     <div v-if="totalPages > 1" class="pager">
-      <button
-        :disabled="page === 1"
-        @click="search(page - 1)"
-      >
+      <button :disabled="page === 1" @click="search(page - 1)">
         上一页
       </button>
-
       <span>
         第 {{ page }} / {{ totalPages }} 页（共 {{ total }} 条）
       </span>
-
-      <button
-        :disabled="page === totalPages"
-        @click="search(page + 1)"
-      >
+      <button :disabled="page === totalPages" @click="search(page + 1)">
         下一页
       </button>
     </div>
@@ -80,7 +69,6 @@ export default {
 
       list: [],
       page: 1,
-      pageSize: 20,
       total: 0,
       totalPages: 0,
 
@@ -95,7 +83,7 @@ export default {
 
       const params = {
         page: this.page,
-        pageSize: this.pageSize
+        per_page: 20
       }
 
       if (this.owner) params.owner = this.owner
@@ -104,9 +92,9 @@ export default {
 
       const r = await searchAssets(params)
 
-      this.list = r.list
-      this.total = r.total
-      this.totalPages = r.totalPages
+      this.list = r.data || []
+      this.total = r.total || 0
+      this.totalPages = r.totalPages || 0
     }
   }
 }
